@@ -1106,6 +1106,7 @@ library("RColorBrewer")
 }
 
 #GPP analysis updated 2021/12/23
+#GPP analysis updated 2022/3/29
 #from 1984 to 2010 with tree density variations explicitly considered
 {
   setwd("D:\\MEGA\\Live_cases\\Hybrid\\Global_Synthesis\\TRENDY\\")
@@ -1129,8 +1130,12 @@ library("RColorBrewer")
   input_gpp_EC_LUE = read.csv("North_America_EC_LUE_gpp_GLC_mask_summary_area_corrected_nbr.csv")
   input_gpp_RS_mean = read.csv("North_America_RS_gpp_mean_GLC_mask_summary_area_corrected.csv")
   #PC GPP
-  input_gpp_trendys2 = read.csv("North_America_Trendys2_gpp_GLC_mask_summary_area_corrected_nbr.csv")
-  input_gpp_trendys3 = read.csv("North_America_Trendys3_gpp_GLC_mask_summary_area_corrected_nbr.csv")
+  #mean value files
+  #input_gpp_trendys2 = read.csv("North_America_Trendys2_gpp_GLC_mask_summary_area_corrected_nbr.csv")
+  #input_gpp_trendys3 = read.csv("North_America_Trendys3_gpp_GLC_mask_summary_area_corrected_nbr.csv")
+  # input_gpp_trendys2_all = read.csv("North_America_gpps2_GLC_mask_summary_area_corrected_84_10_scaled.csv") 
+  # input_gpp_trendys3_all = read.csv("North_America_gpps3_GLC_mask_summary_area_corrected_84_10_scaled.csv")
+  # input_gpp_trendys3_all = input_gpp_trendys3_all[,1:18]
   
   
   
@@ -1143,8 +1148,8 @@ library("RColorBrewer")
   input_sink_glc_mean$all_mean = apply(input_sink_glc_mean[,2:(ncol(input_sink_glc_mean)-2)],1,mean,na.rm=TRUE)
   
   #calculate trendy mean
-  input_gpp_trendy_mean = merge(input_gpp_trendys2,input_gpp_trendys3,by="Year")
-  input_gpp_trendy_mean$mean = apply(input_gpp_trendy_mean[,2:3],1,mean,na.rm=TRUE)
+  # input_gpp_trendy_mean = merge(input_gpp_trendys2,input_gpp_trendys3,by="Year")
+  # input_gpp_trendy_mean$mean = apply(input_gpp_trendy_mean[,2:3],1,mean,na.rm=TRUE)
   
   
   
@@ -1215,28 +1220,53 @@ library("RColorBrewer")
       input_gpp_inf_de[,i] <- output_ret
     }
     
-    input_gpp_trendys2_de <- input_gpp_trendys2
-    for (i in 2:(ncol(input_gpp_trendys2_de))){
-      output_lm <- lm(input_gpp_trendys2_de[,i]~input_gpp_trendys2_de[,1],na.action=na.exclude)
-      output_ret <- residuals(output_lm)
-      input_gpp_trendys2_de[,i] <- output_ret
-    }
-    
-    input_gpp_trendys3_de <- input_gpp_trendys3
-    for (i in 2:(ncol(input_gpp_trendys3_de))){
-      output_lm <- lm(input_gpp_trendys3_de[,i]~input_gpp_trendys3_de[,1],na.action=na.exclude)
-      output_ret <- residuals(output_lm)
-      input_gpp_trendys3_de[,i] <- output_ret
-      
-      
-      input_gpp_trendy_mean_de <- input_gpp_trendy_mean
-      for (i in 2:(ncol(input_gpp_trendy_mean_de))){
-        output_lm <- lm(input_gpp_trendy_mean_de[,i]~input_gpp_trendy_mean_de[,1],na.action=na.exclude)
-        output_ret <- residuals(output_lm)
-        input_gpp_trendy_mean_de[,i] <- output_ret
-      }
+    # input_gpp_trendys2_de <- input_gpp_trendys2
+    # for (i in 2:(ncol(input_gpp_trendys2_de))){
+    #   output_lm <- lm(input_gpp_trendys2_de[,i]~input_gpp_trendys2_de[,1],na.action=na.exclude)
+    #   output_ret <- residuals(output_lm)
+    #   input_gpp_trendys2_de[,i] <- output_ret
+    # }
+    # 
+    # input_gpp_trendys3_de <- input_gpp_trendys3
+    # for (i in 2:(ncol(input_gpp_trendys3_de))){
+    #   output_lm <- lm(input_gpp_trendys3_de[,i]~input_gpp_trendys3_de[,1],na.action=na.exclude)
+    #   output_ret <- residuals(output_lm)
+    #   input_gpp_trendys3_de[,i] <- output_ret
+    #   
+    #   
+    #   input_gpp_trendy_mean_de <- input_gpp_trendy_mean
+    #   for (i in 2:(ncol(input_gpp_trendy_mean_de))){
+    #     output_lm <- lm(input_gpp_trendy_mean_de[,i]~input_gpp_trendy_mean_de[,1],na.action=na.exclude)
+    #     output_ret <- residuals(output_lm)
+    #     input_gpp_trendy_mean_de[,i] <- output_ret
+    #   }
     }    
     
+    #for individual model inputs
+     {
+    # input_gpp_trendys2_all_de <- input_gpp_trendys2_all
+    # for (i in 2:(ncol(input_gpp_trendys2_all_de))){
+    #   output_lm <- lm(input_gpp_trendys2_all_de[,i]~input_gpp_trendys2_all_de[,1],na.action=na.exclude)
+    #   output_ret <- residuals(output_lm)
+    #   input_gpp_trendys2_all_de[,i] <- output_ret
+    # }
+    # 
+    # input_gpp_trendys3_all_de <- input_gpp_trendys3_all
+    # for (i in 2:(ncol(input_gpp_trendys3_all_de))){
+    #   output_lm <- lm(input_gpp_trendys3_all_de[,i]~input_gpp_trendys3_all_de[,1],na.action=na.exclude)
+    #   output_ret <- residuals(output_lm)
+    #   input_gpp_trendys3_all_de[,i] <- output_ret
+    # }
+    # #write the individual model parts out
+    # {
+    #   write.csv(input_gpp_trendys2_all_de,"North_America_gpps2_GLC_mask_summary_area_corrected_84_10_scaled_de.csv")
+    #   write.csv(input_gpp_trendys3_all_de,"North_America_gpps3_GLC_mask_summary_area_corrected_84_10_scaled_de.csv")
+    #   
+    #   
+    # }
+     }
+    
+
     input_sink_glc_nbr_de_scaled = scale(input_sink_glc_nbr_de[,2:length(input_sink_glc_nbr_de)],center = TRUE,scale = TRUE)
     input_sink_glc_ndvi_de_scaled = scale(input_sink_glc_ndvi_de[,2:length(input_sink_glc_ndvi_de)],center = TRUE,scale = TRUE)
     input_sink_glc_per_tree_de_scaled = scale(input_sink_glc_per_tree_de[,2:length(input_sink_glc_per_tree_de)],center = TRUE,scale = TRUE)
@@ -1246,9 +1276,9 @@ library("RColorBrewer")
     input_gpp_BEPS_de_scaled = scale(input_gpp_BEPS_de[,2:length(input_gpp_BEPS_de)],center = TRUE,scale = TRUE)
     input_gpp_inf_de_scaled = scale(input_gpp_inf_de[,2:length(input_gpp_inf_de)],center = TRUE,scale = TRUE)
     input_gpp_RS_mean_de_scaled = scale(input_gpp_RS_mean_de[,2:length(input_gpp_RS_mean_de)],center = TRUE,scale = TRUE)
-    input_gpp_trendys2_de_scaled = scale(input_gpp_trendys2_de[,2:length(input_gpp_trendys2_de)],center = TRUE,scale = TRUE)
-    input_gpp_trendys3_de_scaled = scale(input_gpp_trendys3_de[,2:length(input_gpp_trendys3_de)],center = TRUE,scale = TRUE)  
-    input_gpp_trendy_mean_de_scaled = scale(input_gpp_trendy_mean_de[,2:length(input_gpp_trendy_mean_de)],center = TRUE,scale = TRUE)
+    #input_gpp_trendys2_de_scaled = scale(input_gpp_trendys2_de[,2:length(input_gpp_trendys2_de)],center = TRUE,scale = TRUE)
+    #input_gpp_trendys3_de_scaled = scale(input_gpp_trendys3_de[,2:length(input_gpp_trendys3_de)],center = TRUE,scale = TRUE)  
+    #input_gpp_trendy_mean_de_scaled = scale(input_gpp_trendy_mean_de[,2:length(input_gpp_trendy_mean_de)],center = TRUE,scale = TRUE)
     
     
     #convert to dfs
@@ -1269,22 +1299,27 @@ library("RColorBrewer")
     input_gpp_BEPS_de_scaled_df = data.frame(input_gpp_BEPS_de_scaled)
     input_gpp_inf_de_scaled_df = data.frame(input_gpp_inf_de_scaled)
     input_gpp_RS_mean_de_scaled_df = data.frame(input_gpp_RS_mean_de_scaled)
-    input_gpp_trendys2_de_scaled_df = data.frame(input_gpp_trendys2_de_scaled)
-    input_gpp_trendys3_de_scaled_df = data.frame(input_gpp_trendys3_de_scaled)
-    input_gpp_trendy_mean_de_scaled_df = data.frame(input_gpp_trendy_mean_de_scaled)
+    #input_gpp_trendys2_de_scaled_df = data.frame(input_gpp_trendys2_de_scaled)
+    #input_gpp_trendys3_de_scaled_df = data.frame(input_gpp_trendys3_de_scaled)
+    #input_gpp_trendy_mean_de_scaled_df = data.frame(input_gpp_trendy_mean_de_scaled)
+    
     
     year = c(1984:2010)
     input_sink_glc_nbr_de_scaled_df$Year = year
     input_sink_glc_ndvi_de_scaled_df$Year = year
     input_sink_glc_per_tree_de_scaled_df$Year = year
+    input_sink_glc_mean_de_scaled_df$Year = year
     input_gpp_FLUXCOM_de_scaled_df$Year = year
     input_gpp_EC_LUE_de_scaled_df$Year = year
     input_gpp_BEPS_de_scaled_df$Year = year
     input_gpp_inf_de_scaled_df$Year = year
     input_gpp_RS_mean_de_scaled_df$Year = year
-    input_gpp_trendys2_de_scaled_df$Year = year
-    input_gpp_trendys3_de_scaled_df$Year = year
-    input_gpp_trendy_mean_de_scaled_df$Year = year
+    #input_gpp_trendys2_de_scaled_df$Year = year
+    #input_gpp_trendys3_de_scaled_df$Year = year
+    #input_gpp_trendy_mean_de_scaled_df$Year = year
+    
+    #input the individual model outputs of trendy directly
+    input_gpp_trendy_mean_de_scaled_df = read.csv("North_America_gpp_GLC_mask_summary_area_corrected_84_10_scaled_de_s2s3_combined.csv")
     
     #tree density
     #dVegC_td_de_scaled_df = data.frame(input_dVegC_td_de_scaled)
@@ -1316,23 +1351,27 @@ library("RColorBrewer")
     input_sink_glc_ndvi_de_scaled_df$max = input_sink_glc_ndvi_de_scaled_df$mean + input_sink_glc_ndvi_de_scaled_rsd
     input_sink_glc_mean_de_scaled_df$all_min = input_sink_glc_mean_de_scaled_df$all_mean + input_sink_glc_mean_de_scaled_rsd
     input_sink_glc_mean_de_scaled_df$all_max = input_sink_glc_mean_de_scaled_df$all_mean - input_sink_glc_mean_de_scaled_rsd
-    
-    
+    #calculate min and max for trendy mean
+    input_gpp_trendy_mean_de_scaled_df$Z_score_all_min = input_gpp_trendy_mean_de_scaled_df$Z_score_all_mean - input_gpp_trendy_mean_de_scaled_df$Z_score_all_sd
+    input_gpp_trendy_mean_de_scaled_df$Z_score_all_max = input_gpp_trendy_mean_de_scaled_df$Z_score_all_mean + input_gpp_trendy_mean_de_scaled_df$Z_score_all_sd
+  
   }
   
   #plot code for global
   {
     
-    pdf("D:\\MEGA\\Live_cases\\Hybrid\\Global_Synthesis\\Deep_learning\\random_forest\\Graph_output\\Fig3_P2_Z_score_2022_1_6.pdf",width = 12,height = 6)
+    pdf("D:\\MEGA\\Live_cases\\Hybrid\\Global_Synthesis\\Deep_learning\\random_forest\\Graph_output\\Fig3_P2_Z_score_2022_3_29.pdf",width = 15,height = 6)
     p1 <- ggplot()+
       geom_ribbon(data = input_sink_glc_mean_de_scaled_df,aes(x=Year,ymin= all_min,
                                                               ymax= all_max),fill = "gray",alpha = 0.4)+
+      geom_ribbon(data = input_gpp_trendy_mean_de_scaled_df,aes(x=Year,ymin= Z_score_all_min,
+                                                              ymax= Z_score_all_max),fill = "green4",alpha = 0.2)+
       #geom_ribbon(data = npp_GLC_de_scaled_df,aes(x=Year,ymin= min,
       #                                            ymax= max),fill = "green",alpha = 0.4)+
       #geom_ribbon(data = dVegC_GLC_de_scaled_df,aes(x=Year,ymin= min,
       #                                              ymax= max),fill = "pink",alpha = 0.4)+
       geom_line(data = input_sink_glc_mean_de_scaled_df,aes(x=Year,
-                                                            y=all_mean,color = "aa"),linetype="solid",size =1)+
+                                                            y=all_mean,color = "aa"),linetype="solid",size =1.5)+
       #geom_ribbon(data = input_sink_glc_ndvi_de_scaled_df,aes(x=Year,ymin= min,
       #ymax= max),fill = "gray",alpha = 0.4)+
       #geom_ribbon(data = npp_GLC_de_scaled_df,aes(x=Year,ymin= min,
@@ -1341,20 +1380,20 @@ library("RColorBrewer")
       #                                              ymax= max),fill = "pink",alpha = 0.4)+
       #geom_line(data = input_sink_glc_ndvi_de_scaled_df,aes(x=Year,
       #y=mean,color = "gray21"),linetype="solid",size =1)+
-      geom_line(data = input_gpp_FLUXCOM_de_scaled_df,aes(x=Year,y= input_gpp_FLUXCOM_de_scaled,color = "bb"),linetype="solid",size = 1)+
-      geom_line(data = input_gpp_RS_mean_de_scaled_df,aes(x=Year,y= input_gpp_RS_mean_de_scaled,color = "cc"),linetype="solid",size = 1)+
-      geom_line(data = input_gpp_trendy_mean_de_scaled_df,aes(x=Year,y= input_gpp_trendys2_de_scaled,color = "dd"),linetype="solid",size = 1)+
+      geom_line(data = input_gpp_FLUXCOM_de_scaled_df,aes(x=Year,y= input_gpp_FLUXCOM_de_scaled,color = "bb"),linetype="solid",size = 1.5)+
+      geom_line(data = input_gpp_RS_mean_de_scaled_df,aes(x=Year,y= input_gpp_RS_mean_de_scaled,color = "cc"),linetype="solid",size = 1.5)+
+      geom_line(data = input_gpp_trendy_mean_de_scaled_df,aes(x=Year,y= Z_score_all_mean,color = "dd"),linetype="solid",size = 1.5)+
       #geom_line(data = input_gpp_trendys3_de_scaled_df,aes(x=Year,y= input_gpp_trendys3_de_scaled,color = "royalblue"),linetype="solid",size = 1)+
       ylab("z-score")+
       xlab("Year")+
       ylim(-4,4)+
       #scale_fill_identity(name = 'the fill', guide = 'legend',labels = c('m1')) #+
       scale_color_manual(name = '',
-                         values =c("aa"="gray21","bb" = "green4","cc"="lightcoral","dd"="royalblue"), labels = c('SINK_rhythm','FLUXCOM_rhythm','RS_rhythm','TRENDY_rhythm'))+
+                         values =c("aa"="gray21","bb" = "royalblue","cc"="lightcoral","dd"="green4"), labels = c('AABI','FLUXCOM','RS_mean','TRENDY'))+
       theme_set(theme_bw())+
       theme(panel.grid.major=element_line(colour=NA))+
-      theme(legend.position = "bottom",legend.text = element_text(face="bold",size = 16))+
-      theme(axis.text = element_text(face="bold",size =18),axis.text.x = element_text(face="bold",size =18),axis.text.y = element_text(face="bold",size =18),axis.title.x=element_text(face="bold",size=18),axis.title.y=element_text(face="bold",size=18))
+      theme(legend.position = "bottom",legend.text = element_text(face="bold",size = 24))+
+      theme(axis.text = element_text(face="bold",size =24),axis.text.x = element_text(face="bold",size =24),axis.text.y = element_text(face="bold",size =24),axis.title.x=element_text(face="bold",size=24),axis.title.y=element_text(face="bold",size=24))
     p1
     dev.off()
     
