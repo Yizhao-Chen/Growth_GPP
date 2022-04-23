@@ -1357,10 +1357,36 @@ library("RColorBrewer")
   
   }
   
+
+#get the correlation matrix and plot
+{
+  corr_mean_df = data.frame("AABI" = input_sink_glc_mean_de_scaled_df$all_mean, "TRENDY" = input_gpp_trendy_mean_de_scaled_df$mean,"FLUXCOM" = input_gpp_FLUXCOM_de_scaled_df$input_gpp_FLUXCOM_de_scaled,"RS" = input_gpp_RS_mean_de_scaled_df$input_gpp_RS_mean_de_scaled)
+  corr = cor(corr_mean_df)
+  p.mat = cor_pmat(corr_mean_df)
+  
+  pdf("D:\\MEGA\\Live_cases\\Hybrid\\Global_Synthesis\\Deep_learning\\random_forest\\Graph_output\\Fig3_P3_corr_2022_4_22.pdf",width = 9,height = 6)
+  
+  p_corr <- ggcorrplot(corr, hc.order = TRUE, type = "lower",
+                       #ggtheme = ggplot2::theme_gray,
+                       show.legend = F,
+                       lab = TRUE, p.mat = p.mat,insig = "pch",pch = 3,
+                       tl.cex = 15,tl.srt = 0,lab_size =10)
+  
+  p_corr
+  dev.off()
+  
+  # scale_fill_gradient2(
+  #                      limits=c(0,1),
+  #                      breaks=c(0,1))
+  
+  scale_fill_gradient2(breaks=c(0, 1), limit=c(0, 1))
+}
+
+
   #plot code for global
   {
     
-    pdf("D:\\MEGA\\Live_cases\\Hybrid\\Global_Synthesis\\Deep_learning\\random_forest\\Graph_output\\Fig3_P2_Z_score_2022_3_29.pdf",width = 15,height = 6)
+    pdf("D:\\MEGA\\Live_cases\\Hybrid\\Global_Synthesis\\Deep_learning\\random_forest\\Graph_output\\Fig3_P2_Z_score_2022_4_22.pdf",width = 11,height = 6)
     p1 <- ggplot()+
       geom_ribbon(data = input_sink_glc_mean_de_scaled_df,aes(x=Year,ymin= all_min,
                                                               ymax= all_max),fill = "gray",alpha = 0.4)+
@@ -1386,7 +1412,7 @@ library("RColorBrewer")
       #geom_line(data = input_gpp_trendys3_de_scaled_df,aes(x=Year,y= input_gpp_trendys3_de_scaled,color = "royalblue"),linetype="solid",size = 1)+
       ylab("z-score")+
       xlab("Year")+
-      ylim(-4,4)+
+      scale_y_continuous(limits = c(-5.9,4),breaks= c(-4,-2,0,2,4))+
       #scale_fill_identity(name = 'the fill', guide = 'legend',labels = c('m1')) #+
       scale_color_manual(name = '',
                          values =c("aa"="gray21","bb" = "royalblue","cc"="lightcoral","dd"="green4"), labels = c('AABI','FLUXCOM','RS_mean','TRENDY'))+
